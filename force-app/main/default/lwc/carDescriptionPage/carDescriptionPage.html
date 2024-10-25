@@ -1,0 +1,27 @@
+<template>
+    <c-currency-selector oncurrencychange={handleCurrencyChange}></c-currency-selector>
+    
+    <lightning-card title="Our Cars">
+        <template if:true={products}>
+            <div class="slds-grid slds-wrap">
+                <template for:each={products} for:item="product">
+                    <div class="slds-col slds-size_1-of-2 slds-p-around_small" key={product.Id} onclick={handleProductSelect} data-id={product.Id}>
+                        <lightning-card class="slds-box slds-box_xx-small slds-text-link_faux" variant="narrow" icon-name="utility:travel_and_places">
+                                <h1 slot="title">{product.name}</h1>
+                                <h1 class="slds-p-horizontal_small">Price: <lightning-formatted-number value={product.price} format-style="currency" currency-code={selectedCurrency}></lightning-formatted-number></h1>
+                        </lightning-card>
+                    </div>
+                </template>
+            </div>
+        </template>
+        <template if:true={error}>
+            <div class="slds-text-color_error">{error}</div>
+        </template>
+    </lightning-card>
+
+    <c-car-description-modal-page 
+        product={selectedProduct} 
+        is-open={isModalOpen} 
+        onclose={closeModal}>
+    </c-car-description-modal-page>
+</template>

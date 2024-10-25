@@ -1,0 +1,39 @@
+<apex:page contenttype="application/pdf" renderAs="pdf" controller="CarController">
+<apex:includeLightning/>
+    <html>
+        <head>
+            <title>Our Cars</title>
+            <style>
+                body {
+                    font-family: Arial, sans-serif;
+                    margin: 20px;
+                }
+                h1 {
+                    color: #333;
+                }
+                .car-card {
+                    border: 1px solid #ccc;
+                    border-radius: 5px;
+                    padding: 10px;
+                    margin-bottom: 10px;
+                }
+                .error {
+                    color: red;
+                }
+            </style>
+        </head>
+        <body>
+            <h1>Our Cars</h1>
+            <apex:repeat value="{!products}" var="product">
+                <div class="car-card">
+                    <h2>{!product.Name}</h2>
+                    <h3>Price: 
+                        <apex:outputText value="{0, number, currency}">
+                            <apex:param value="{!product.Price}" />
+                        </apex:outputText>
+                    </h3>
+                </div>
+            </apex:repeat>
+        </body>
+    </html>
+</apex:page>
