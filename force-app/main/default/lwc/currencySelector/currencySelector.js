@@ -19,10 +19,9 @@ export default class CurrencySelector extends LightningElement {
 
     handleCurrencyChange(event) {
         this.selectedCurrency = event.detail.value;
-        const currencyChangeEvent = new CustomEvent('currencychange', {
+        this.dispatchEvent(new CustomEvent('currencychange', {
             detail: { currency: this.selectedCurrency }
-        });
-        this.dispatchEvent(currencyChangeEvent);
+        }));
     }
 
     @wire(getUserCurrency)

@@ -9,41 +9,30 @@ export default class CarDescriptionPage extends LightningElement {
     };
     products;
     error;
-    isModalOpen = false;
+    isModalOpen;
     selectedProduct;
-    selectedCurrency;
-
-    connectedCallback() {
-          getProducts({selectedCurrency: ''})
-         .then(data=>{
-             this.products = data;
-         })
-         .catch(error=>{
-             this.error = error.body.message;
-         });
-    }
+    selectedCurrency = '';
 
     @wire(getProducts, {selectedCurrency: '$selectedCurrency'})
     wiredProducts({ error, data }) {
         if (data) {
             this.products = data;
-            this.error = undefined;
+            this.error = null;
         } else if (error) {
             this.error = error.body.message;
-            this.products = undefined;
+            this.products = null;
         }
     }
 
     handleProductSelect(event) {
         const productId = event.currentTarget.dataset.id;
-        console.log(event.currentTarget.dataset.id);
         this.selectedProduct = this.products.find(product => product.Id === productId);
         this.isModalOpen = true;
     }
 
     closeModal() {
         this.isModalOpen = false;
-        this.selectedProduct = {};
+        this.selectedProduct = null;
     }
         
     handleCurrencyChange(event) {

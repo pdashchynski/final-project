@@ -3,8 +3,8 @@ import LightningModal from "lightning/modal";
 import CloseLabel from '@salesforce/label/c.Close';
 
 export default class CarDescriptionModalPage extends LightningModal {
-  @api product; // Product data passed from parent
-  @api isOpen = false; // Control modal visibility
+  @api product;
+  @api isOpen;
 
   label = {
     CloseLabel
@@ -12,7 +12,10 @@ export default class CarDescriptionModalPage extends LightningModal {
 
   closeModal() {
       this.isOpen = false;
-      const closeEvent = new CustomEvent('close');
-      this.dispatchEvent(closeEvent);
+      this.dispatchEvent(new CustomEvent('close'));
   }
+
+  handleDownload() {
+    window.open('/apex/carDescriptionVFPage', '_blank');
+  }    
 }
