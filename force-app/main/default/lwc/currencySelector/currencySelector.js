@@ -1,9 +1,9 @@
 import { LightningElement, wire } from 'lwc';
-import getActiveCurrencies from '@salesforce/apex/CurrencyService.getActiveCurrencies';
-import getUserCurrency from '@salesforce/apex/CurrencyService.getUserCurrency';
+import getActiveCurrencies from '@salesforce/apex/CurrencyManager.getActiveCurrencies';
+import CURRENCY from "@salesforce/i18n/currency";
 
 export default class CurrencySelector extends LightningElement {
-    selectedCurrency;
+    selectedCurrency = CURRENCY;
     currencyOptions = [];
 
     @wire(getActiveCurrencies)
@@ -22,14 +22,5 @@ export default class CurrencySelector extends LightningElement {
         this.dispatchEvent(new CustomEvent('currencychange', {
             detail: { currency: this.selectedCurrency }
         }));
-    }
-
-    @wire(getUserCurrency)
-    wiredUserCurrency({ error, data }) {
-      if (data) {
-        this.selectedCurrency = data;
-      } else if (error) {
-        console.error('Error fetching user currency:', error);
-      }
     }
 }

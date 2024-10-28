@@ -1,58 +1,26 @@
-<!-- <apex:page contenttype="application/pdf" renderAs="pdf" controller="CarController">
-    <apex:includeLightning/>
-    <html>
-        <head>
-            <title>Our Cars</title>
-            <style>
-                body {
-                    font-family: Arial, sans-serif;
-                    margin: 20px;
-                }
-                h1 {
-                    color: #333;
-                }
-                .car-card {
-                    border: 1px solid #ccc;
-                    border-radius: 5px;
-                    padding: 10px;
-                    margin-bottom: 10px;
-                }
-                .error {
-                    color: red;
-                }
-            </style>
-        </head>
-        <body>
-            <h1>Our Cars</h1>
-            <apex:repeat value="{!products}" var="product">
-                <div class="car-card">
-                    <h2>{!product.Name}</h2>
-                    <h3>Price: 
-                        <apex:outputText value="{0, number, currency}">
-                            <apex:param value="{!product.Price}" />
-                        </apex:outputText>
-                    </h3>
-                </div>
-            </apex:repeat>
-        </body>
-    </html>
-</apex:page> -->
+<apex:page controller="CarDescriptionController" renderAs="pdf">
 
-<apex:page standardController="Account" renderAs="pdf" applyBodyTag="false">
-    <head>
-        <style> 
-            body { font-family: 'Arial Unicode MS'; }
-            .companyName { font: bold 30px; color: red; }  
-        </style>
-    </head>
-    <body>
-        <center>
-        <h1>New Account Name!</h1>
-     
-        <apex:panelGrid columns="1" width="100%">
-            <apex:outputText value="{!account.Name}" styleClass="companyName"/>
-            <apex:outputText value="{!NOW()}"></apex:outputText>
-        </apex:panelGrid>
-        </center>
-    </body>
+    <div class="pageBlock">
+        <strong>{!$Label.Selected_Car}:</strong> {!selectedCar.Name}
+        <br/>
+        <strong>{!$Label.Available_Options}:</strong>
+    </div>
+
+    <apex:pageBlock >
+        <apex:dataTable value="{!cars}" var="car" width="100%" cellpadding="2" columnsWidth="12%, 34%, 34%, 25%">
+            <apex:column headerValue="{!$Label.Name}">
+                <apex:outputText value="{!car.name}"/>
+            </apex:column>
+            <apex:column headerValue="{!$Label.Description}" styleClass="position">
+                <apex:outputText value="{!car.description}" escape="false"/ >
+            </apex:column>
+            <apex:column headerValue="Advanced Multimedia System" styleClass="position">
+                <apex:outputText value="{!car.advancedMultSystem}" escape="false"/ >
+            </apex:column>
+            <apex:column headerValue="{!$Label.Price}" styleClass="position right">
+                <apex:outputText value="{!car.price} {!car.currencyCode}" escape="false"/ >
+            </apex:column>
+        </apex:dataTable>
+    </apex:pageBlock>
+
 </apex:page>

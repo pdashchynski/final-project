@@ -1,5 +1,5 @@
 public without sharing class CurrencyExchangeRateService {
-    private static final String API_URL = 'https://api.nbrb.by/exrates/rates?periodicity=0';
+    private static final String API_URL = NBRB_API__c.getOrgDefaults().Conversion_Rates_Endpoint__c;
 
     @future(callout=true)
     public static void updateExchangeRates() {
@@ -12,7 +12,6 @@ public without sharing class CurrencyExchangeRateService {
             req.setHeader('Authorization', 'OAuth ' + UserInfo.getSessionId());
             req.setHeader('Content-Type', 'application/json');
             req.setMethod('POST');
-            //req.setTimeout(30);
             HttpResponse res = http.send(req);
         }
     }
@@ -27,7 +26,7 @@ public without sharing class CurrencyExchangeRateService {
         request.setHeader('Content-Type', 'application/json');
         HttpResponse response = http.send(request);
         if (response.getStatusCode() == 200) {
-            List<CurrencyType> activeCurrencies = CurrencyService.getActiveCurrencies();
+            List<CurrencyType> activeCurrencies = CurrencyManager.getActiveCurrencies();
             List<Object> exchangeRates = (List<Object>) JSON.deserializeUntyped(response.getBody());
 
             for (Object rate : exchangeRates) {
@@ -49,7 +48,6 @@ public without sharing class CurrencyExchangeRateService {
         } else {
             System.debug('Error: ' + response.getStatus());
         }
-        System.debug(currencyData);
         return currencyData;
     }
 

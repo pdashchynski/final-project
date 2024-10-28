@@ -11,11 +11,14 @@
                 </div>
                 <div class="slds-modal__content slds-p-around_medium">
                     <p>{product.description}</p>
-                    <p>Price: <lightning-formatted-number value={product.price} format-style="currency" currency-code={product.currencyCode}></lightning-formatted-number></p>
+                    <p>{label.PriceLabel}: <lightning-formatted-number value={product.price} format-style="currency" currency-code={product.currencyCode}></lightning-formatted-number></p>
                 </div>
                 <div class="slds-modal__footer">
-                    <lightning-button label="Download as PDF" variant="brand-outline" class="slds-m-left_x-small" onclick={handleDownload}></lightning-button>
-                    <button variant="brand" onclick={closeModal}>{label.CloseLabel}</button>
+                    <c-car-pdf-navigation
+                        sku={product.sku}
+                        selected-currency={selectedCurrency}>
+                    </c-car-pdf-navigation>
+                    <lightning-button variant="brand" label={label.CloseLabel} title={label.CloseLabel} onclick={closeModal} class="slds-m-left_x-small"></lightning-button>
                 </div>
             </div>
         </section>

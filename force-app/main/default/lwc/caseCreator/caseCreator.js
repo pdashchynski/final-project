@@ -1,19 +1,55 @@
 import { LightningElement } from 'lwc';
-import { ShowToastEvent } from 'lightning/platformShowToastEvent';
-import CASE_OBJECT  from '@salesforce/schema/Case';
-import STATUS_FIELD from '@salesforce/schema/Case.Status';
-import ORIGIN_FIELD from '@salesforce/schema/Case.Origin';
-import CONTACT_NAME from '@salesforce/schema/Case.ContactId';
+import createCase from '@salesforce/apex/CaseController.createCase';
 
 export default class CaseCreator extends LightningElement {
-    objectApiName = CASE_OBJECT;
-    fields = [STATUS_FIELD, ORIGIN_FIELD, CONTACT_NAME];
-    handleSuccess(event) {
-        const toastEvent = new ShowToastEvent({
-            title: "Case created",
-            message: "We will contact you soon!",
-            variant: "success"
-        });
-        this.dispatchEvent(toastEvent);
+    caseSubject ;
+    caseDescription;
+    casePriority;
+    caseEmail;
+    caseUserName;
+    successMessage;
+    errorMessage;
+
+    priorityOptions = [
+        { label: 'Low', value: 'Low' },
+        { label: 'Medium', value: 'Medium' },
+        { label: 'High', value: 'High' }
+    ];
+
+    handleSubjectChange(event) {
+        this.caseSubject = event.target.value;
+    }
+
+    handleDescriptionChange(event) {
+        this.caseDescription = event.target.value;
+    }
+
+    handlePriorityChange(event) {
+        this.casePriority = event.target.value;
+    }
+
+    handleEmailChange(event) {
+        this.caseEmail = event.target.value;
+    }
+
+    handleUserNameChange(event) {
+        this.caseUserName = event.target.value;
+    }
+
+    handleSubmit() {
+        createCase({ subject: this.caseSubject, description: this.caseDescription, priority: this.casePriority, email: this.caseEmail, userName: this.caseUserName })
+            .then(() => {
+                this.successMessage = 'Our team will contact you soon!';
+                this.errorMessage = '';
+                this.caseSubject = '';
+                this.caseDescription = '';
+                this.casePriority = '';
+                this.caseEmail = '';
+                this.caseUserName = '';
+            })
+            .catch(error => {
+                this.errorMessage = 'Error creating case: ' + error.body.message;
+                this.successMessage = '';
+            });
     }
 }

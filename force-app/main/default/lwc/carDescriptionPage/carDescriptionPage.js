@@ -1,17 +1,22 @@
 import { LightningElement, wire } from 'lwc';
 import { refreshApex } from '@salesforce/apex';
 import getProducts from '@salesforce/apex/CarController.getProducts';
-import CloseLabel from '@salesforce/label/c.Close';
+import PriceLabel from '@salesforce/label/c.Price';
+import CAR_COUPE_IMAGE from '@salesforce/resourceUrl/Car_Coupe';
+import CAR_WAGON_IMAGE from '@salesforce/resourceUrl/Car_Wagon';
+import CURRENCY from "@salesforce/i18n/currency";
 
 export default class CarDescriptionPage extends LightningElement {
     label = {
-        CloseLabel
+        PriceLabel
     };
     products;
     error;
     isModalOpen;
     selectedProduct;
-    selectedCurrency = '';
+    selectedCurrency = CURRENCY;
+    carCoupeImage = CAR_COUPE_IMAGE;
+    carWagonImage = CAR_WAGON_IMAGE;
 
     @wire(getProducts, {selectedCurrency: '$selectedCurrency'})
     wiredProducts({ error, data }) {

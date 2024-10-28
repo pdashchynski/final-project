@@ -1,9 +1,18 @@
 <template>
-    <lightning-card>
-        <lightning-record-form
-            object-api-name={objectApiName}
-            fields={fields}
-            onsuccess={handleSuccess}>
-        </lightning-record-form>
-    </lightning-card>    
+    <lightning-card title="Ask us a question!" icon-name="standard:case">
+        <div class="slds-p-around_medium">
+            <lightning-input label="Subject" value={caseSubject} onchange={handleSubjectChange} required></lightning-input>
+            <lightning-textarea name="Description" label="Description" value={caseDescription} onchange={handleDescriptionChange} required></lightning-textarea>
+            <lightning-combobox label="Priority" value={casePriority} options={priorityOptions} onchange={handlePriorityChange}></lightning-combobox>
+            <lightning-input name="Email" label="Email" value={caseEmail} onchange={handleEmailChange} required></lightning-input>
+            <lightning-input name="Name" label="Name" value={caseUserName} onchange={handleUserNameChange} class="slds-p-bottom_medium" required></lightning-input>
+            <lightning-button variant="brand" label="Submit" onclick={handleSubmit} class="slds-p-top_medium"></lightning-button>
+            <template if:true={successMessage}>
+                <div class="slds-text-color_success slds-m-top_medium">{successMessage}</div>
+            </template>
+            <template if:true={errorMessage}>
+                <div class="slds-text-color_error slds-m-top_medium">{errorMessage}</div>
+            </template>
+        </div>
+    </lightning-card>
 </template>
